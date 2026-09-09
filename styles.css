@@ -1,0 +1,79 @@
+.card-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.card {
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.amount-container {
+    display:flex;
+    justify-content: space-between;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+}
+
+input[type="radio"] {
+    transform: scale(1.5);
+}
+
+label {
+    font-size: 22px;
+}
+
+button {
+    font-size: 20px;
+    padding: 5px 15px;
+    border: 1.5px solid black;
+    border-radius: 20px;
+}
+
+.type-options {
+    display: flex;
+    gap: 40px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+}
+
+form {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dynamicFields {
+
+    margin-top: 30px;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.dynamicFields input,
+.dynamicFields select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    box-sizing: border-box;
+}
+
+.dynamicFields input:focus,
+.dynamicFields select:focus {
+    outline: 2px solid;
+}

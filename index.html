@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="main">
+        <div class="card-container">
+
+
+            <div class="card">
+                <h2 class="card-header"> Total Spend</h2>
+                <div class="amount-container">
+                    <h1 class="rupee-symbol">&#8377</h2>
+                        <h1 class="amount">00000</h1>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-header">Total Earn</h2>
+                <div class="amount-container">
+                    <h1 class="rupee-symbol">&#8377</h2>
+                        <h1 class="amount">00000</h1>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="form-container">
+            <form action="">
+                <div class="type-options">
+                    <label >
+                    <input type="radio" value="expense" name="expenseOrIncome">
+                    Expense
+                    </label>
+                    <label for="income">
+                    <input type="radio" value="income" name="expenseOrIncome">
+                    Income
+                    </label>
+                </div>
+                <div class="dynamicFields"></div>
+                <div class="button-container">
+                    <button type="submit">+Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
