@@ -81,7 +81,7 @@ radioType.forEach(radio => {
 })
 
 
-const transactions = [];
+const transactions = JSON.parse(localStorage.getItem("transactions")) || []
 const addBtn = document.getElementById("addBtn");
 const amountSpend = document.getElementById("amount-spend")
 const amountEarn = document.getElementById("amount-earn")
@@ -114,7 +114,12 @@ addBtn.addEventListener("click",(e)=>{
     }
 
     transactions.push(transaction)
-    console.log(transactions)
+    
+
+    localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+    )
 
 
     const expenses = transactions.filter(transaction=>transaction.type==="expense")
@@ -127,9 +132,47 @@ addBtn.addEventListener("click",(e)=>{
     amountEarn.textContent = totalEarn
 
 
-    console.log(expenses)
-    console.log(totalSpend)
+
+
+    const transactionList = document.querySelector(".transaction-list");
+
+    transactionList.innerHTML +=`
+        <div class="transaction ${transaction.type}">
+            <label>${transaction.type ==="expense" ? "-":"+"}&#8377 ${transaction.amount}</label>
+            <label>${transaction.category?transaction.category:transaction.description}</label>
+            <label>${transaction.date}</label>
+        </div>
+    
+    `
+
+    transactionList.scrollTop = transactionList.scrollHeight;
 
 })
+
+
+const transactionList = document.querySelector(".transaction-list");
+
+transactions.forEach(transaction=>{
+    transactionList.innerHTML +=`
+        <div class="transaction ${transaction.type}">
+            <label>${transaction.type ==="expense" ? "-":"+"}&#8377 ${transaction.amount}</label>
+            <label>${transaction.category?transaction.category:transaction.description}</label>
+            <label>${transaction.date}</label>
+        </div>
+    
+    `
+})
+
+
+
+const expenses = transactions.filter(transaction=>transaction.type==="expense")
+    const spending =transactions.filter(transaction=>transaction.type==="income");
+
+    const totalSpend = expenses.reduce((sum,expense)=>sum+expense.amount,0)
+    const totalEarn =spending.reduce ((sum,spend)=>sum+spend.amount,0)
+
+    amountSpend.textContent = totalSpend
+    amountEarn.textContent = totalEarn
+
 
 

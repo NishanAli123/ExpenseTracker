@@ -77,3 +77,40 @@ form {
 .dynamicFields select:focus {
     outline: 2px solid;
 }
+
+.recent-transactions {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+
+    width: 400px;
+}
+
+.recent-transactions h3 {
+    margin-top: 0;
+}
+
+.transaction-list{
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.transaction {
+    display: grid;
+    grid-template-columns: 100px 1fr 120px;
+    gap: 20px;
+
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.transaction.expense {
+    color: red;
+}
+
+.transaction.income {
+    color: green;
+}
