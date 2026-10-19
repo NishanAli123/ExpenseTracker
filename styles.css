@@ -62,17 +62,16 @@ header button {
   stroke-width: 2;
 }
 
-.stock-change.increase {
-    color: #f87171;
-}
 
-.stock-change.decrease {
-    color: #4ade80;
-}
+/* Spending: up is bad */
+#spend .increase { color: #e5484d; }
+#spend .decrease { color: #30a46c; }
 
-.stock-change.no-change {
-    color: #a3a3a3;
-}
+/* Income: up is good */
+#earn .increase { color: #30a46c; }
+#earn .decrease { color: #e5484d; }
+
+.no-change { color: gray; }
 
 .amount-container {
     display:flex;

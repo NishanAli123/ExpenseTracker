@@ -151,7 +151,7 @@ addBtn.addEventListener("click", (e) => {
     )
 
     // Update monthly spending comparison
-    updateMonthlySpending();
+    updateMonthlyComparison();
 
     /*transaction List*/
     const transactionList = document.querySelector(".transaction-list");
@@ -243,61 +243,52 @@ document.addEventListener("keydown", (event) => {
 
 //increment or decrement symbol displaying
 
-function updateMonthlySpending() {
+function getMonthlyTotals(type) {
     const now = new Date();
 
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
 
-    const previousDate = new Date(
-        currentYear,
-        currentMonth - 1,
-        1
-    );
-
+    const previousDate = new Date(currentYear, currentMonth - 1, 1);
     const previousMonth = previousDate.getMonth();
     const previousYear = previousDate.getFullYear();
 
     let currentTotal = 0;
     let previousTotal = 0;
 
-    //for expense
     transactions.forEach(transaction => {
-        // Count expenses only, not income
-        if (transaction.type !== "expense") return;
+        if (transaction.type !== type) return;
+        if (!transaction.date) return;
 
         const amount = Number(transaction.amount);
-
         if (!Number.isFinite(amount) || amount < 0) return;
 
-        // Your stored date format is YYYY-MM-DD
-        const [year, month] = transaction.date
-            .split("-")
-            .map(Number);
+        const [year, month] = transaction.date.split("-").map(Number);
 
-        if (
-            year === currentYear &&
-            month === currentMonth + 1
-        ) {
+        if (year === currentYear && month === currentMonth + 1) {
             currentTotal += amount;
         }
 
-        if (
-            year === previousYear &&
-            month === previousMonth + 1
-        ) {
+        if (year === previousYear && month === previousMonth + 1) {
             previousTotal += amount;
         }
     });
 
-    const icon = document.getElementById("changeIcon");
-    const percentageText = document.getElementById("changePercentage");
-    const change = document.getElementById("spendingChange");
+    return { currentTotal, previousTotal };
+}
+
+function renderChange(type, ids) {
+    const { currentTotal, previousTotal } = getMonthlyTotals(type);
+
+    const iconBox = document.getElementById(ids.icon);
+    const percentageText = document.getElementById(ids.text);
+    const change = document.getElementById(ids.box);
 
     change.classList.remove("increase", "decrease", "no-change");
 
+    let iconName = "minus";
+
     if (previousTotal === 0) {
-        icon.setAttribute("data-lucide", "minus");
         percentageText.textContent = "No previous data";
         change.classList.add("no-change");
     } else {
@@ -305,21 +296,36 @@ function updateMonthlySpending() {
         const percentage = (difference / previousTotal) * 100;
 
         if (difference > 0) {
-            icon.setAttribute("data-lucide", "trending-up");
+            iconName = "trending-up";
             percentageText.textContent = `+${percentage.toFixed(1)}%`;
             change.classList.add("increase");
         } else if (difference < 0) {
-            icon.setAttribute("data-lucide", "trending-down");
+            iconName = "trending-down";
             percentageText.textContent = `${percentage.toFixed(1)}%`;
             change.classList.add("decrease");
         } else {
-            icon.setAttribute("data-lucide", "minus");
             percentageText.textContent = "0%";
             change.classList.add("no-change");
         }
     }
 
+    iconBox.innerHTML = `<i data-lucide="${iconName}"></i>`;
+}
+
+function updateMonthlyComparison() {
+    renderChange("expense", {
+        box: "spendingChange",
+        icon: "changeIcon",
+        text: "changePercentage"
+    });
+
+    renderChange("income", {
+        box: "earningChange",
+        icon: "earningIcon",
+        text: "earningPercentage"
+    });
+
     lucide.createIcons();
 }
 
-updateMonthlySpending();
+updateMonthlyComparison();
