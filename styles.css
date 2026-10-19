@@ -1,28 +1,85 @@
+html {
+    background-color: black;
+}
+
+body {
+    margin: 0;
+}
+header {
+    margin: 0;
+    padding: 0;
+}
+header button {
+    background-color: #202020;
+    font-size: 2rem;
+    display: block;
+    margin-left: auto;
+    margin-right: 300px;
+    border: 1px solid #202020;
+    border-radius: 50%;
+    padding: 5px 16px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #A3A3A3;
+    
+}
 .card-container {
     display: flex;
     justify-content: space-around;
 }
 
 .card {
-    border: 1px solid #ddd;
+    border: 1px solid #141414;
     border-radius: 16px;
     padding: 24px;
-
-    background-color: white;
-
+    color: #FAFAFA;
+    background-color: #141414;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
     min-width: 220px;
 }
 
 .card-header {
+    margin: 0;
+}
+
+.card-head {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 70px;
+}
+
+.stock-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #22C55E;
+  font-weight: 600;
+}
+
+.stock-change svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+}
+
+.stock-change.increase {
+    color: #f87171;
+}
+
+.stock-change.decrease {
+    color: #4ade80;
+}
+
+.stock-change.no-change {
+    color: #a3a3a3;
 }
 
 .amount-container {
     display:flex;
-    justify-content: center;
+}
+
+.amount-container h1 {
+    margin: 0;
 }
 
 .form-container {
@@ -84,11 +141,52 @@ button:active {
     padding-top: 40px;
 }
 
+/* Dark overlay covering the whole page */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Show popup */
+.modal-overlay.active {
+  display: flex;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+}
+
 form {
-    height: 400px;
+    min-height: 400px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    gap: 20px;
+    padding: 30px;
+
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .dynamicFields {
@@ -97,24 +195,40 @@ form {
     
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 18px;
+}
+
+.dynamicFields label {
+    font-size: 15px;
+    font-weight: 600;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .dynamicFields input,
 .dynamicFields select {
     width: 100%;
-    padding: 12px;
+    padding: 12px 14px;
     font-size: 16px;
 
-    border: 1px solid #ccc;
+    background-color: #fff;
+
+    border: 1px solid #d1d5db;
     border-radius: 8px;
 
     box-sizing: border-box;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .dynamicFields input:focus,
 .dynamicFields select:focus {
-    outline: 2px solid;
+    outline: none;
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 .recent-transactions {
@@ -123,30 +237,40 @@ form {
     bottom: 30px;
 
     width: 400px;
+    padding: 20px;
+
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .recent-transactions h3 {
-    margin-top: 0;
+    margin: 0 0 15px 0;
+    font-size: 20px;
 }
 
-.transaction-list{
+.transaction-list {
     max-height: 300px;
     overflow-y: auto;
+
     display: flex;
     flex-direction: column;
-    gap: 10px;
 }
 
 .transaction {
     display: grid;
     grid-template-columns: 100px 1fr 120px;
     gap: 20px;
+    align-items: center;
 
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+    padding: 12px 5px;
+
+    border-bottom: 1px solid #eee;
 }
 
-.transaction.expense {
+/* .transaction.expense {
     color: red;
 }
 
@@ -155,9 +279,16 @@ form {
 }
 
 #earn {
-    color: green;
+    color: #16a34a;
 }
 
 #spend {
+    color: #dc2626;
+} */
+
+#description-error,
+#amount-error{
     color: red;
+    font-size: 12px;
+    margin-top: 4px;
 }

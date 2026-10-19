@@ -9,46 +9,70 @@
 </head>
 
 <body>
-    <div class="main">
+    <main>
+        <header>
+            <button id="openForm">+</button>
+        </header>
         <div class="card-container">
 
-
             <div class="card" id="spend">
-                <h2 class="card-header"> Total Spend</h2>
+                <div class="card-head">
+                    <h2 class="card-header"> Total Spend</h2>
+                    <div class="stock-change" id="spendingChange">
+                        <i data-lucide="trending-up" id="changeIcon"></i>
+                        <span id="changePercentage">0%</span>
+                    </div>
+                </div>
                 <div class="amount-container">
                     <h1 class="rupee-symbol">&#8377</h2>
-                        <h1 id="amount-spend" >0</h1>
+                        <h1 id="amount-spend">0</h1>
                 </div>
             </div>
 
             <div class="card" id="earn">
-                <h2 class="card-header">Total Earn</h2>
+                <div class="card-head">
+                    <h2 class="card-header">Total Earn</h2>
+                    <div class="stock-change" id="earningChange">
+                        <i data-lucide="trending-up" id="changeIcon"></i>
+                        <span id="changePercentage">0%</span>
+                    </div>
+                </div>
                 <div class="amount-container">
                     <h1 class="rupee-symbol">&#8377</h2>
                         <h1 id="amount-earn">0</h1>
                 </div>
             </div>
 
+            <div class="card" id="balance">
+                <h2 class="card-header">Balance</h2>
+                <div class="amount-container">
+                    <h1 class="rupee-symbol">&#8377</h2>
+                        <h1 id="amount-balance">0</h1>
+                </div>
+            </div>
 
         </div>
 
-        <div class="form-container">
-            <form action="">
-                <div class="type-options">
-                    <label >
-                    <input type="radio" value="expense" name="expenseOrIncome">
-                    Expense
-                    </label>
-                    <label for="income">
-                    <input type="radio" value="income" name="expenseOrIncome">
-                    Income
-                    </label>
-                </div>
-                <div class="dynamicFields"></div>
-                <div class="button-container">
-                    <button type="submit" id="addBtn">+Add</button>
-                </div>
-            </form>
+        <div class="modal-overlay" id="modal">
+            <div class="form-container">
+                <button id="closeForm" class="close-btn" type="button">&times;</button>
+                <form action="">
+                    <div class="type-options">
+                        <label>
+                            <input type="radio" value="expense" name="expenseOrIncome">
+                            Expense
+                        </label>
+                        <label for="income">
+                            <input type="radio" value="income" name="expenseOrIncome">
+                            Income
+                        </label>
+                    </div>
+                    <div class="dynamicFields"></div>
+                    <div class="button-container">
+                        <button type="submit" id="addBtn">+Add</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <div class="recent-transactions">
@@ -56,9 +80,11 @@
             <div class="transaction-list"></div>
         </div>
 
-    </div>
+    </main>
 
     <script src="script.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
 </body>
 
 </html>
