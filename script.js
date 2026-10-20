@@ -3,86 +3,53 @@ const dynamicFields = document.querySelector('.dynamicFields');
 const today = new Date().toLocaleDateString("en-CA");
 
 
+const categories = {
+    expense: ["food", "transport", "bills", "shopping", "other"],
+    income: ["salary", "business", "other"]
+};
+
+function capitalize(text) {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function renderFields(type) {
+    const options = categories[type]
+        .map(c => `<option value="${c}">${capitalize(c)}</option>`)
+        .join("");
+
+    dynamicFields.innerHTML = `
+        <label>Category
+            <select id="category">${options}</select>
+        </label>
+
+        <label>Description (optional)
+            <input type="text" id="description"></input>
+        </label>
+
+        <label>Amount
+            <input type="number" id="amount"></input>
+            <small id="amount-error"></small>
+        </label>
+
+        <label>Date
+            <input type="date" value="${today}" id="date"></input>
+        </label>
+
+        <label for="paymentMode">Payment Mode
+            <select id="paymentMode">
+                <option value="cash">Cash</option>
+                <option value="card">Card</option>
+                <option value="upi">UPI</option>
+            </select>
+        </label>
+    `;
+}
+
 radioType.forEach(radio => {
     radio.addEventListener("change", (e) => {
-        if (e.target.value === "expense") {
-            dynamicFields.innerHTML = `
-                <label>Description
-                <input type="text" id="description"></input>
-                <small id="description-error"></small>
-                </label>
-
-                <label>Amount
-                <input type="number" id="amount"></input>
-                <small id="amount-error"></small>
-                </label>
-
-                <label>Date
-                <input type="date" value="${today}" id="date"></input>
-                </label>
-
-                <label for="paymentMode">Payment Mode
-
-                    <select id="paymentMode">
-                        <option value="cash">Cash</option>
-                        <option value="card">Card</option>
-                        <option value="upi">UPI</option>
-                    </select>
-                </label>
-            `
-        }
-        else {
-            dynamicFields.innerHTML = `
-                <label>Category
-                    <select id="category">
-                        <option value="salary">Salary</option>
-                        <option value="business">Business</option>
-                        <option value="other">Other</option>
-                    </select>
-                </label>
-
-                <div id="otherDescription"></div>
-
-
-                <label>Amount
-                <input type="number" id="amount"></input>
-                <small id="amount-error"></small>
-                </label>
-
-                <label>Date
-                <input type="date" value="${today}" id="date"></input>
-                </label>
-
-                <label for="paymentMode">Payment Mode
-
-                    <select id="paymentMode">
-                        <option value="cash">Cash</option>
-                        <option value="card">Card</option>
-                        <option value="upi">UPI</option>
-                    </select>
-                </label>
-
-            `
-
-            const otherDescription = document.getElementById('otherDescription');
-            const category = document.getElementById("category")
-
-            category.addEventListener("change", (e) => {
-                if (e.target.value === "other") {
-                    otherDescription.innerHTML = `
-                    <label>Description
-                       <input type="text" id="description"></input>
-                       <small id="description-error"></small>
-                    </label>
-                `
-                }
-                else {
-                    otherDescription.innerHTML = ``
-                }
-            })
-        }
-    })
-})
+        renderFields(e.target.value);
+    });
+});
 
 
 const transactions = JSON.parse(localStorage.getItem("transactions")) || []
@@ -121,13 +88,6 @@ addBtn.addEventListener("click", (e) => {
     if (!transaction.amount || transaction.amount <= 0) {
         if (amountError) {
             amountError.textContent = "Enter a valid amount";
-        }
-        return;
-    }
-
-    if (transaction.type === "expense" && !transaction.description) {
-        if (descError) {
-            descError.textContent = "Description must be filled";
         }
         return;
     }
