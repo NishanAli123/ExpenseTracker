@@ -15,7 +15,6 @@ header button {
     display: block;
     margin-left: auto;
     margin-right: 300px;
-    border: 1px solid #202020;
     border-radius: 50%;
     padding: 5px 16px;
     margin-top: 5px;
@@ -61,7 +60,30 @@ header button {
   height: 20px;
   stroke-width: 2;
 }
+/* tooltip */
+.stock-change {
+    position: relative;
+}
 
+.tooltip {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    visibility: hidden;
+    background-color: #262626;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 100;
+    color: inherit;
+    width: max-content;
+    padding: 10px;
+
+}
+
+.stock-change:hover .tooltip {
+    visibility: visible;
+}
 
 /* Spending: up is bad */
 #spend .increase { color: #e5484d; }
@@ -268,22 +290,6 @@ form {
 
     border-bottom: 1px solid #eee;
 }
-
-/* .transaction.expense {
-    color: red;
-}
-
-.transaction.income {
-    color: green;
-}
-
-#earn {
-    color: #16a34a;
-}
-
-#spend {
-    color: #dc2626;
-} */
 
 #description-error,
 #amount-error{

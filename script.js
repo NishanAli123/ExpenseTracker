@@ -283,6 +283,7 @@ function renderChange(type, ids) {
     const iconBox = document.getElementById(ids.icon);
     const percentageText = document.getElementById(ids.text);
     const change = document.getElementById(ids.box);
+    const tooltip = document.getElementById(ids.tooltip)
 
     change.classList.remove("increase", "decrease", "no-change");
 
@@ -291,6 +292,7 @@ function renderChange(type, ids) {
     if (previousTotal === 0) {
         percentageText.textContent = "No previous data";
         change.classList.add("no-change");
+        tooltip.style.display = "none"
     } else {
         const difference = currentTotal - previousTotal;
         const percentage = (difference / previousTotal) * 100;
@@ -299,10 +301,12 @@ function renderChange(type, ids) {
             iconName = "trending-up";
             percentageText.textContent = `+${percentage.toFixed(1)}%`;
             change.classList.add("increase");
+            tooltip.textContent = `${percentage.toFixed(1)}% increment compared to last month`;
         } else if (difference < 0) {
             iconName = "trending-down";
             percentageText.textContent = `${percentage.toFixed(1)}%`;
             change.classList.add("decrease");
+            tooltip.textContent = `${percentage.toFixed(1)}% decrement compared to last month`;
         } else {
             percentageText.textContent = "0%";
             change.classList.add("no-change");
@@ -316,13 +320,15 @@ function updateMonthlyComparison() {
     renderChange("expense", {
         box: "spendingChange",
         icon: "changeIcon",
-        text: "changePercentage"
+        text: "changePercentage",
+        tooltip: "spendingTooltip"
     });
 
     renderChange("income", {
         box: "earningChange",
         icon: "earningIcon",
-        text: "earningPercentage"
+        text: "earningPercentage",
+        tooltip: "earningTooltip"
     });
 
     lucide.createIcons();
