@@ -25,6 +25,7 @@ header button {
 .card-container {
     display: flex;
     justify-content: space-around;
+    
 }
 
 .card {
@@ -45,6 +46,20 @@ header button {
     display: flex;
     justify-content: space-between;
     gap: 70px;
+}
+
+/* piecharts */
+.charts {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 0px 50px;
+}
+
+.chart-card {
+    flex: 1;
+    min-width: 160px;
+    max-width: 250px;
 }
 
 .stock-change {
@@ -102,6 +117,9 @@ header button {
 .amount-container h1 {
     margin: 0;
 }
+
+/* pie charts */
+
 
 .form-container {
     display: flex;

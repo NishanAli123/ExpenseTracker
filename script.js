@@ -113,6 +113,9 @@ addBtn.addEventListener("click", (e) => {
     // Update monthly spending comparison
     updateMonthlyComparison();
 
+    //update piecharts
+    updateCharts();
+
     /*transaction List*/
     const transactionList = document.querySelector(".transaction-list");
 
@@ -148,16 +151,16 @@ addBtn.addEventListener("click", (e) => {
 /*Loading the page*/
 const transactionList = document.querySelector(".transaction-list");
 
-transactions.forEach(transaction => {
-    transactionList.innerHTML += `
-        <div class="transaction ${transaction.type}">
-            <label>${transaction.type === "expense" ? "-" : "+"}&#8377 ${transaction.amount}</label>
-            <label>${transaction.category ? transaction.category : transaction.description}</label>
-            <label>${transaction.date}</label>
-        </div>
-    
-    `
-})
+// transactions.forEach(transaction => {
+//     transactionList.innerHTML += `
+//         <div class="transaction ${transaction.type}">
+//             <label>${transaction.type === "expense" ? "-" : "+"}&#8377 ${transaction.amount}</label>
+//             <label>${transaction.category ? transaction.category : transaction.description}</label>
+//             <label>${transaction.date}</label>
+//         </div>
+
+//     `
+// })
 
 
 
@@ -169,7 +172,7 @@ const totalEarn = spending.reduce((sum, spend) => sum + spend.amount, 0)
 
 amountSpend.textContent = totalSpend
 amountEarn.textContent = totalEarn
-amountBalance.textContent =totalEarn-totalSpend
+amountBalance.textContent = totalEarn - totalSpend
 
 
 /*pop up window */
@@ -295,3 +298,75 @@ function updateMonthlyComparison() {
 }
 
 updateMonthlyComparison();
+
+
+//pie charts
+
+const charts = {};
+
+const categoryColors = {
+    // expense
+    food: "#F87171",
+    transport: "#EF4444",
+    bills: "#DC2626",
+    shopping: "#991B1B",
+    // income
+    salary: "#86EFAC",
+    business: "#4ADE80",
+    // shared
+    other: "#16A34A",
+    uncategorized: "#FCA5A5"
+};
+
+function renderPie(type, canvasId) {
+    const totals = {};
+
+    transactions.forEach(t => {
+        if (t.type !== type) return;
+
+        const amount = Number(t.amount);
+        if (!Number.isFinite(amount) || amount <= 0) return;
+
+        const key = t.category || "uncategorized";
+        totals[key] = (totals[key] || 0) + amount;
+    });
+
+    const keys = Object.keys(totals);
+    const labels = keys.map(capitalize);
+    const data = Object.values(totals);
+    const colors = keys.map(key => categoryColors[key] || "#999999");
+
+    // If the chart already exists, just update it
+    if (charts[canvasId]) {
+        const chart = charts[canvasId];
+        chart.data.labels = labels;
+        chart.data.datasets[0].data = data;
+        chart.data.datasets[0].backgroundColor = colors;
+        chart.update();
+        return;
+    }
+
+    // Otherwise create it
+    charts[canvasId] = new Chart(document.getElementById(canvasId), {
+        type: "pie",
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: colors,
+                borderColor: "#000000",
+                borderWidth: 3
+            }]
+        },
+        options: {
+            plugins: { legend: { position: "bottom" } }
+        }
+    });
+}
+
+function updateCharts() {
+    renderPie("expense", "expenseChart");
+    renderPie("income", "incomeChart");
+}
+
+updateCharts();

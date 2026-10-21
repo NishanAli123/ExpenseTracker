@@ -59,6 +59,17 @@
 
         </div>
 
+         <div class="charts">
+                <div class="chart-card">
+                    <h3>Spending by Category</h3>
+                    <canvas id="expenseChart"></canvas>
+                </div>
+                <div class="chart-card ">
+                    <h3>Income by Category</h3>
+                    <canvas id="incomeChart"></canvas>
+                </div>
+            </div>
+
         <div class="modal-overlay" id="modal">
             <div class="form-container">
                 <button id="closeForm" class="close-btn" type="button">&times;</button>
@@ -81,15 +92,17 @@
             </div>
         </div>
 
-        <div class="recent-transactions">
+        <!-- <div class="recent-transactions">
             <h3>Recent Transactions</h3>
             <div class="transaction-list"></div>
-        </div>
+        </div> -->
 
     </main>
 
-    <script src="script.js"></script>
+    
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+    <script src="script.js"></script>
     <script>lucide.createIcons();</script>
 </body>
 
