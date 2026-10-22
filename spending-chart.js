@@ -116,6 +116,7 @@ function renderSpendingChart() {
   var chart = root.querySelector(".sh-chart");
 
   function setActive(i) {
+    if (sums[i] === 0) { tip.classList.remove("show"); return; }
     tip.classList.add("show");
     shState.active = i;
     cols.forEach(function (c, k) { c.classList.toggle("on", k === i); });

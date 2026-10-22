@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="spending-chart.css">
+    <link rel="stylesheet" href="transaction-history.css">
 </head>
 
 <body>
@@ -60,20 +61,21 @@
 
         </div>
 
-        <div class="charts">
-            <div class="chart-card">
-                <canvas id="expenseChart"></canvas>
-            </div>
-            <div class="chart-card ">
-                <canvas id="incomeChart"></canvas>
+        <!-- pie charts and annual spending chart -->
+        <section class="dashboard-row">
+            <div class="pies">
+                <div class="pie-box"><canvas id="expenseChart"></canvas></div>
+                <div class="pie-box"><canvas id="incomeChart"></canvas></div>
             </div>
             <!-- Annual spending chart -->
             <div id="spending-chart"></div>
-        </div>
 
-        <!-- Annual spending chart -->
-        <div id="spending-chart"></div>
+            <!--recent transactions-->
+            <div id="transaction-history"></div>
 
+        </section>
+
+        <!-- Form -->
         <div class="modal-overlay" id="modal">
             <div class="form-container">
                 <button id="closeForm" class="close-btn" type="button">&times;</button>
@@ -96,18 +98,14 @@
             </div>
         </div>
 
-        <!-- <div class="recent-transactions">
-            <h3>Recent Transactions</h3>
-            <div class="transaction-list"></div>
-        </div> -->
-
     </main>
 
-
+    <!-- scripts link -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
     <script src="script.js"></script>
     <script src="spending-chart.js"></script>
+    <script src="transaction-history.js"></script>
     <script>lucide.createIcons();</script>
 </body>
 

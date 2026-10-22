@@ -5,12 +5,11 @@
   --muted: #8b91a1;
   width: 100%;
   max-width: 500px;
-  background: var(--bg);
-  border: 1px solid var(--line);
+  background: #141414;
   border-radius: 20px;
   padding: 5px 24px 10px;
   color: var(--text);
-  font-family: inherit
+  font-family: inherit;
 }
 
 .sh-head {

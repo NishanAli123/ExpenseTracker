@@ -119,22 +119,8 @@ addBtn.addEventListener("click", (e) => {
     //update annual spending chart
     renderSpendingChart();
 
-    /*transaction List*/
-    const transactionList = document.querySelector(".transaction-list");
-
-    transactionList.innerHTML += `
-        <div class="transaction ${transaction.type}">
-            <label>${transaction.type === "expense" ? "-" : "+"}&#8377 ${transaction.amount}</label>
-            <label>${transaction.type === "expense" ? transaction.description : transaction.category === "other" ? transaction.description : transaction.category}</label>
-            <label>${transaction.date}</label>
-        </div>
-    
-    `
-
-    transactionList.scrollTop = transactionList.scrollHeight;
-
-
-
+    //update transaction history table
+    renderTransactionHistory();
 
     /*card updating*/
     const expenses = transactions.filter(transaction => transaction.type === "expense")
@@ -152,21 +138,6 @@ addBtn.addEventListener("click", (e) => {
 })
 
 /*Loading the page*/
-const transactionList = document.querySelector(".transaction-list");
-
-// transactions.forEach(transaction => {
-//     transactionList.innerHTML += `
-//         <div class="transaction ${transaction.type}">
-//             <label>${transaction.type === "expense" ? "-" : "+"}&#8377 ${transaction.amount}</label>
-//             <label>${transaction.category ? transaction.category : transaction.description}</label>
-//             <label>${transaction.date}</label>
-//         </div>
-
-//     `
-// })
-
-
-
 const expenses = transactions.filter(transaction => transaction.type === "expense")
 const spending = transactions.filter(transaction => transaction.type === "income");
 
@@ -325,6 +296,16 @@ const categoryColors = {
 };
 
 function renderPie(type, canvasId) {
+    const fixedLegendHeight = {
+        id: "fixedLegendHeight",
+        beforeInit(chart) {
+            const originalFit = chart.legend.fit;
+            chart.legend.fit = function () {
+                originalFit.bind(chart.legend)();
+                this.height = 72;   // same legend height for every pie
+            };
+        }
+    };
     const totals = {};
 
     transactions.forEach(t => {
@@ -365,8 +346,15 @@ function renderPie(type, canvasId) {
             }]
         },
         options: {
-            plugins: { legend: { position: "bottom" } }
-        }
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "bottom",
+                    labels: { boxWidth: 12, boxHeight: 12, font: { size: 11 }, padding: 8 }
+                }
+            }
+        },
+        plugins: [fixedLegendHeight]
     });
 }
 
