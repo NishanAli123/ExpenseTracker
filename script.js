@@ -116,6 +116,9 @@ addBtn.addEventListener("click", (e) => {
     //update piecharts
     updateCharts();
 
+    //update annual spending chart
+    renderSpendingChart();
+
     /*transaction List*/
     const transactionList = document.querySelector(".transaction-list");
 
@@ -264,12 +267,12 @@ function renderChange(type, ids) {
             iconName = "trending-up";
             percentageText.textContent = `+${percentage.toFixed(1)}%`;
             change.classList.add("increase");
-            tooltip.textContent = `${percentage.toFixed(1)}% increment compared to last month`;
+            tooltip.textContent = `${percentage.toFixed(1)}% increase from last month`;
         } else if (difference < 0) {
             iconName = "trending-down";
             percentageText.textContent = `${percentage.toFixed(1)}%`;
             change.classList.add("decrease");
-            tooltip.textContent = `${percentage.toFixed(1)}% decrement compared to last month`;
+            tooltip.textContent = `${percentage.toFixed(1)}% decrease from last month`;
         } else {
             percentageText.textContent = "0%";
             change.classList.add("no-change");
@@ -305,17 +308,20 @@ updateMonthlyComparison();
 const charts = {};
 
 const categoryColors = {
-    // expense
-    food: "#F87171",
-    transport: "#EF4444",
-    bills: "#DC2626",
-    shopping: "#991B1B",
-    // income
-    salary: "#86EFAC",
-    business: "#4ADE80",
-    // shared
-    other: "#16A34A",
-    uncategorized: "#FCA5A5"
+    expense: {
+        food: "#FCA5A5",          // light red
+        transport: "#F87171",     // soft red
+        bills: "#EF4444",         // red
+        shopping: "#B91C1C",      // dark red
+        other: "#7F1D1D",         // deep maroon
+        uncategorized: "#FECACA"  // pale red
+    },
+    income: {
+        salary: "#86EFAC",        // light green
+        business: "#22C55E",      // green
+        other: "#15803D",         // dark green
+        uncategorized: "#BBF7D0"  // pale green
+    }
 };
 
 function renderPie(type, canvasId) {
@@ -334,7 +340,7 @@ function renderPie(type, canvasId) {
     const keys = Object.keys(totals);
     const labels = keys.map(capitalize);
     const data = Object.values(totals);
-    const colors = keys.map(key => categoryColors[key] || "#999999");
+    const colors = keys.map(key => categoryColors[type][key] || "#999999");
 
     // If the chart already exists, just update it
     if (charts[canvasId]) {
