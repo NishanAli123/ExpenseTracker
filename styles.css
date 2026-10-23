@@ -335,3 +335,22 @@ form {
 .th-card {
     box-sizing: border-box;
 }
+
+/* delete button styling */
+.th-del {
+    flex: none;
+    background: transparent;
+    color: #6b7280;
+    padding: 6px;
+    font-size: 14px;
+    border-radius: 8px;
+    box-shadow: none;
+    display: grid;
+    place-items: center;
+}
+.th-del:hover {
+    background: rgba(255, 92, 108, .15);
+    color: #ff5c6c;
+    transform: none;
+    box-shadow: none;
+}

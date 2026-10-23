@@ -123,14 +123,7 @@ addBtn.addEventListener("click", (e) => {
     renderTransactionHistory();
 
     /*card updating*/
-    const expenses = transactions.filter(transaction => transaction.type === "expense")
-    const spending = transactions.filter(transaction => transaction.type === "income");
-
-    const totalSpend = expenses.reduce((sum, expense) => sum + expense.amount, 0)
-    const totalEarn = spending.reduce((sum, spend) => sum + spend.amount, 0)
-
-    amountSpend.textContent = totalSpend
-    amountEarn.textContent = totalEarn
+    updateTotals();
 
 
     // Empty the form fields
@@ -138,15 +131,7 @@ addBtn.addEventListener("click", (e) => {
 })
 
 /*Loading the page*/
-const expenses = transactions.filter(transaction => transaction.type === "expense")
-const spending = transactions.filter(transaction => transaction.type === "income");
-
-const totalSpend = expenses.reduce((sum, expense) => sum + expense.amount, 0)
-const totalEarn = spending.reduce((sum, spend) => sum + spend.amount, 0)
-
-amountSpend.textContent = totalSpend
-amountEarn.textContent = totalEarn
-amountBalance.textContent = totalEarn - totalSpend
+updateTotals();
 
 
 /*pop up window */
@@ -223,6 +208,8 @@ function renderChange(type, ids) {
     const tooltip = document.getElementById(ids.tooltip)
 
     change.classList.remove("increase", "decrease", "no-change");
+    tooltip.style.display = "";
+    tooltip.textContent = "";
 
     let iconName = "minus";
 
@@ -364,3 +351,30 @@ function updateCharts() {
 }
 
 updateCharts();
+
+//delete button
+
+function updateTotals() {
+    const totalSpend = transactions
+        .filter(t => t.type === "expense")
+        .reduce((sum, t) => sum + t.amount, 0);
+    const totalEarn = transactions
+        .filter(t => t.type === "income")
+        .reduce((sum, t) => sum + t.amount, 0);
+
+    amountSpend.textContent = totalSpend;
+    amountEarn.textContent = totalEarn;
+    amountBalance.textContent = totalEarn - totalSpend;
+}
+
+function deleteTransaction(index) {
+    transactions.splice(index, 1);   // update the in-memory array
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+
+    updateTotals();
+    updateMonthlyComparison();
+    updateCharts();
+    renderSpendingChart();
+    renderTransactionHistory();
+}
+

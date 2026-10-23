@@ -7,7 +7,7 @@
   --green: #34d399;
   width: 100%;
   max-width: 300px;
-  background: var(--bg);
+  background: #141414;
   border: 1px solid var(--line);
   border-radius: 20px;
   padding: 18px 18px 8px;

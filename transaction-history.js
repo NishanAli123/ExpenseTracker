@@ -1,10 +1,10 @@
 // ---- 1. Adjust these to match your app -------------------------------------
 var TH_STORAGE_KEY = "transactions";   // your localStorage key
-var TH_CURRENCY = "$";                 // e.g. "₹"
-function thAmount(t)   { return Number(t.amount) || 0; }
-function thType(t)     { return t.type === "income" ? "income" : "expense"; }
+var TH_CURRENCY = "₹";                 // e.g. "₹"
+function thAmount(t) { return Number(t.amount) || 0; }
+function thType(t) { return t.type === "income" ? "income" : "expense"; }
 function thCategory(t) { return String(t.category || "uncategorized").trim().toLowerCase(); }
-function thTitle(t)    { return t.title || t.description || t.name || thCap(thCategory(t)); }
+function thTitle(t) { return t.title || t.description || t.name || thCap(thCategory(t)); }
 function thDateOf(t) {                 // t.date like "2026-10-22"
   var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(t.date));
   return m ? new Date(+m[1], +m[2] - 1, +m[3]) : new Date(t.date);
@@ -65,7 +65,7 @@ function thGroupLabel(d) {
 }
 
 function thListHtml() {
-  var rows = thLoad().map(function (t) { return { t: t, d: thDateOf(t) }; })
+  var rows = thLoad().map(function (t, i) { return { t: t, d: thDateOf(t), i: i }; })
     .filter(function (r) { return !isNaN(r.d) && thAmount(r.t) > 0; })
     .filter(function (r) { return thInPeriod(r.d, thState.period); })
     .filter(function (r) { return thState.type === "all" || thType(r.t) === thState.type; })
@@ -82,7 +82,10 @@ function thListHtml() {
       '<div class="th-info"><div class="th-name">' + thEsc(thTitle(r.t)) + "</div>" +
       '<div class="th-sub">' + (type === "income" ? "↙ Received" : "↗ Paid") + " · " + thEsc(thCap(cat)) + "</div></div>" +
       '<div class="th-amt ' + type + '">' + (type === "income" ? "+" : "-") + TH_CURRENCY +
-      thAmount(r.t).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + "</div></div>";
+      thAmount(r.t).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + "</div>" +
+      '<button class="th-del" data-index="' + r.i + '" aria-label="Delete transaction" title="Delete">' +
+      '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg>' +
+      "</button></div>";
   });
   return html;
 }
@@ -90,6 +93,8 @@ function thListHtml() {
 function renderTransactionHistory() {
   var root = document.getElementById("transaction-history");
   if (!root) return;
+  var prevList = root.querySelector(".th-list");
+  var prevScroll = prevList ? prevList.scrollTop : 0;
 
   root.innerHTML = '<div class="th-card">' +
     '<div class="th-head"><div class="th-title"><i>🕘</i>Transaction History</div>' +
@@ -104,6 +109,14 @@ function renderTransactionHistory() {
     '<div class="th-list">' + thListHtml() + "</div></div>";
 
   var list = root.querySelector(".th-list");
+  list.scrollTop = prevScroll;
+
+  list.onclick = function (e) {
+    var btn = e.target.closest(".th-del");
+    if (!btn) return;
+    if (!confirm("Delete this transaction?")) return;
+    if (typeof deleteTransaction === "function") deleteTransaction(Number(btn.dataset.index));
+  };
   root.querySelector(".th-filter").onchange = function () {
     thState.period = this.value;
     list.innerHTML = thListHtml();
