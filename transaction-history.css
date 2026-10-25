@@ -6,7 +6,8 @@
   --red: #ff5c6c;
   --green: #34d399;
   width: 100%;
-  max-width: 300px;
+  max-width: 100%;
+  min-width: 0;
   background: #141414;
   border: 1px solid var(--line);
   border-radius: 20px;
@@ -27,7 +28,9 @@
   align-items: center;
   gap: 10px;
   font-size: 0.8rem;
-  font-weight: 600
+  font-weight: 600;
+  min-width: 0;
+  flex: 1;;
 }
 
 .th-title i {
@@ -38,7 +41,10 @@
   display: grid;
   place-items: center;
   font-style: normal;
-  font-size: 13px
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .th-filter {
@@ -50,13 +56,20 @@
   padding: 7px 10px;
   border-radius: 10px;
   cursor: pointer;
-  max-width: 150px
+  min-width: 0;
+  flex-shrink: 1;
+  max-width: 150px;
 }
 
 .th-tabs {
   display: flex;
   gap: 6px;
-  margin-top: 14px
+  margin-top: 14px;
+  min-width: 0;
+  padding: 6px 4px;      /* instead of "6px 0" so text has breathing room */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .th-tab {

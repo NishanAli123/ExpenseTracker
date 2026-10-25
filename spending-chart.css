@@ -3,8 +3,7 @@
   --line: #232733;
   --text: #e8eaf0;
   --muted: #8b91a1;
-  width: 100%;
-  max-width: 500px;
+  min-width: 0;
   background: #141414;
   border-radius: 20px;
   padding: 5px 24px 10px;

@@ -1,14 +1,28 @@
-html {
-    background-color: black;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: black;
 }
 
 body {
     margin: 0;
+    font-size: clamp(0.8rem, 1vw, 1rem); 
+    padding: clamp(0.5rem, 2vw, 2rem);
+    
 }
 
 header {
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
 }
 
 header button {
@@ -16,18 +30,12 @@ header button {
     font-size: 2rem;
     display: block;
     margin-left: auto;
-    margin-right: 300px;
+    /* margin-right: 300px; */
     border-radius: 50%;
     padding: 5px 16px;
     margin-top: 5px;
     margin-bottom: 5px;
     color: #A3A3A3;
-
-}
-
-.card-container {
-    display: flex;
-    justify-content: space-around;
 
 }
 
@@ -38,7 +46,7 @@ header button {
     color: #FAFAFA;
     background-color: #141414;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    min-width: 220px;
+    width: 100%;
 }
 
 .card-header {
@@ -75,7 +83,6 @@ header button {
     bottom: 110%;
     left: 50%;
     transform: translateX(-50%);
-    visibility: hidden;
     background-color: #262626;
     border-radius: 5px;
     font-size: 1rem;
@@ -83,11 +90,13 @@ header button {
     color: inherit;
     width: max-content;
     padding: 10px;
+    display: none;
+    max-width: 200px;
 
 }
 
 .stock-change:hover .tooltip {
-    visibility: visible;
+    display: block;
 }
 
 /* Spending: up is bad */
@@ -276,47 +285,25 @@ form {
     margin-top: 4px;
 }
 
-
-.dashboard-row {
-    display: grid;
-    grid-template-columns: 432px minmax(0, 1fr) 320px;  /* fixed pies column */
-    gap: 28px;
-    align-items: start;
-    margin: 40px 28px 28px;
-}
-
-.dashboard-row .pies {
+.pies {
     display: flex;
-    gap: 16px;
-    width: 432px;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .pie-box {
     flex: none;
     width: 200px;
-    height: 260px;      /* pie plus legend */
-    position: relative; /* Chart.js sizes itself to this box */
+    height: 260px;
+    /* pie plus legend */
+    position: relative;
+    /*Chart.js sizes itself to this box */
 }
 
-.dashboard-row .pies canvas {
+.pies canvas {
     max-width: 100%;
-}
-
-/* medium screens: pies on their own row, chart and history below */
-@media (max-width:1300px) {
-    .dashboard-row { grid-template-columns: minmax(0, 1fr) 320px; }
-    .dashboard-row .pies { grid-column: 1 / -1; width: auto; }
-}
-
-/* small screens: everything stacked */
-@media (max-width:800px) {
-    .dashboard-row {
-        grid-template-columns: 1fr;
-    }
-
-    .dashboard-row .pies {
-        flex-wrap: wrap;
-    }
 }
 
 #spending-chart .sh-card {
@@ -348,9 +335,84 @@ form {
     display: grid;
     place-items: center;
 }
+
 .th-del:hover {
     background: rgba(255, 92, 108, .15);
     color: #ff5c6c;
     transform: none;
     box-shadow: none;
+}
+
+/* grid */
+
+.grid-container {
+    display: grid;
+    width: 100%;
+    margin-inline: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1em;
+    grid-template-areas:
+        "child-1 child-2 child-3"
+        "child-4 child-5 child-6"
+        ". . child-6";
+
+}
+
+@media (max-width:1175px) {
+    .grid-container {
+        grid-template-areas:
+            "child-1 child-2 child-3"
+            "child-5 child-5 child-6"
+            "child-4 child-4 child-6";
+    }
+}
+
+@media (min-width:1176px) and (max-width:1300px  ) {
+    .grid-container {
+        justify-items: center;
+    }
+}
+
+@media (max-width:750px) {
+    .grid-container {
+        grid-template-areas:
+            "child-1 child-1 child-4"
+            "child-2 child-3 child-4"
+            "child-5 child-5 child-4"
+            "child-6 child-6 child-6"
+            ;
+        align-items: center;
+    }   
+}
+
+@media (max-width:670px) {
+    .grid-container {
+        grid-template-areas:
+            "child-1 child-1 child-4"
+            "child-2 child-2 child-4"
+            "child-3 child-3 child-4"
+            "child-5 child-5 child-5"
+            "child-6 child-6 child-6"
+            ;
+        align-items: center;
+    }   
+}
+
+@media (max-width:600px) {
+    .grid-container {
+        grid-template-areas:
+            "child-1 child-1 child-1"
+            "child-2 child-2 child-2"
+            "child-3 child-3 child-3"
+            "child-4 child-4 child-4"
+            "child-5 child-5 child-5"
+            "child-6 child-6 child-6"
+            ;
+        align-items: center;
+        justify-content: center;
+    }   
+
+    .tooltip {
+        left: -65px;
+    }
 }

@@ -15,65 +15,67 @@
         <header>
             <button id="openForm">+</button>
         </header>
-        <div class="card-container">
-
-            <div class="card" id="spend">
-                <div class="card-head">
-                    <h2 class="card-header"> Total Spend</h2>
-                    <div class="stock-change" id="spendingChange">
-                        <span id="changeIcon"></span>
-                        <span id="changePercentage">0%</span>
-                        <div class="tooltip" id="spendingTooltip">
-                            Your expenses increased by 25% compared to last month.
+        <div class="grid-container">
+            <div class="child" style="grid-area: child-1;">
+                <div class="card" id="spend">
+                    <div class="card-head">
+                        <h2 class="card-header"> Total Spend</h2>
+                        <div class="stock-change" id="spendingChange">
+                            <span id="changeIcon"></span>
+                            <span id="changePercentage">0%</span>
+                            <div class="tooltip" id="spendingTooltip">
+                                Your expenses increased by 25% compared to last month.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="amount-container">
-                    <h1 class="rupee-symbol">&#8377</h2>
-                        <h1 id="amount-spend">0</h1>
-                </div>
-            </div>
-
-            <div class="card" id="earn">
-                <div class="card-head">
-                    <h2 class="card-header">Total Earn</h2>
-                    <div class="stock-change" id="earningChange">
-                        <span id="earningIcon"></span>
-                        <span id="earningPercentage">0%</span>
-                        <div class="tooltip" id="earningTooltip">
-                            Your income increased by 25% compared to last month.
-                        </div>
+                    <div class="amount-container">
+                        <h1 class="rupee-symbol">&#8377</h2>
+                            <h1 id="amount-spend">0</h1>
                     </div>
                 </div>
-                <div class="amount-container">
-                    <h1 class="rupee-symbol">&#8377</h2>
-                        <h1 id="amount-earn">0</h1>
+            </div>
+            <div class="child" style="grid-area: child-2;">
+                <div class="card" id="earn">
+                    <div class="card-head">
+                        <h2 class="card-header">Total Earn</h2>
+                        <div class="stock-change" id="earningChange">
+                            <span id="earningIcon"></span>
+                            <span id="earningPercentage">0%</span>
+                            <div class="tooltip" id="earningTooltip">
+                                Your income increased by 25% compared to last month.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="amount-container">
+                        <h1 class="rupee-symbol">&#8377</h2>
+                            <h1 id="amount-earn">0</h1>
+                    </div>
                 </div>
             </div>
-
-            <div class="card" id="balance">
-                <h2 class="card-header">Balance</h2>
-                <div class="amount-container">
-                    <h1 class="rupee-symbol">&#8377</h2>
-                        <h1 id="amount-balance">0</h1>
+            <div class="child" style="grid-area: child-3;">
+                <div class="card" id="balance">
+                    <h2 class="card-header">Balance</h2>
+                    <div class="amount-container">
+                        <h1 class="rupee-symbol">&#8377</h2>
+                            <h1 id="amount-balance">0</h1>
+                    </div>
                 </div>
             </div>
-
+            <div class="child" style="grid-area: child-4;">
+                <div class="pies">
+                    <div class="pie-box"><canvas id="expenseChart"></canvas></div>
+                    <div class="pie-box"><canvas id="incomeChart"></canvas></div>
+                </div>
+            </div>
+            <div class="child" style="grid-area: child-5;">
+                <!-- Annual spending chart -->
+                <div id="spending-chart"></div>
+            </div>
+            <div class="child" style="grid-area: child-6;">
+                <!--recent transactions-->
+                <div id="transaction-history"></div>
+            </div>
         </div>
-
-        <!-- pie charts and annual spending chart -->
-        <section class="dashboard-row">
-            <div class="pies">
-                <div class="pie-box"><canvas id="expenseChart"></canvas></div>
-                <div class="pie-box"><canvas id="incomeChart"></canvas></div>
-            </div>
-            <!-- Annual spending chart -->
-            <div id="spending-chart"></div>
-
-            <!--recent transactions-->
-            <div id="transaction-history"></div>
-
-        </section>
 
         <!-- Form -->
         <div class="modal-overlay" id="modal">
